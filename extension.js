@@ -22,7 +22,7 @@ function post_cypher(cypher, output, host) {
 		output.show()
 	  })
 	  .catch(function (error) {
-		output.appendLine(JSON.stringify(error, null, 2));
+		vscode.window.showErrorMessage(JSON.stringify(error));
 	  });
 }
 
