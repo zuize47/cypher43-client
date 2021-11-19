@@ -6,6 +6,7 @@ const remove_comment_regex = /((['"])(?:(?!\2|\\).|\\.)*\2)|\/\/[^\n]*|\/\*(?:[^
 const remmove_new_line = /(\r\n|\n|\r)/gm
 const outputChannel = vscode.window.createOutputChannel(`Cypher Output`);
 
+
 function post_cypher(cypher, host) {
 	const cypher_fixed = cypher.replace(remove_comment_regex, " ").replace(remmove_new_line, " ");
 	return axios.post(`${host}/db/neo4j/tx/commit`, {

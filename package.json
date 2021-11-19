@@ -1,8 +1,8 @@
 {
 	"name": "cypher43-client",
 	"displayName": "Cypher Http Client",
-	"description": "",
-	"version": "0.0.2",
+	"description": "Run cypher with http api",
+	"version": "0.0.3",
 	"repository": {
         "type": "git",
         "url": "https://github.com/zuize47/cypher43-client"
@@ -37,9 +37,20 @@
                     ".cypher"
                 ],
                 "configuration": "./cypher.configuration.json"
-            }
+            },
+			{
+				"id": "code-output",
+				"mimetypes": [
+					"text/x-code-output"
+				]
+			}
 		],
 		"grammars": [
+			{
+				"language": "code-output",
+				"scopeName": "log.json",
+				"path": "./syntaxes/JSON.tmLanguage.json"
+			},
             {
                 "language": "cypher",
                 "scopeName": "source.cypher",
