@@ -1,0 +1,366 @@
+{
+	"fileTypes": [
+		"cql",
+		"cyp",
+		"cypher"
+	],
+	"name": "Cypher",
+	"patterns": [
+		{
+			"include": "#template-substitution-element"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#constants"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#functions"
+		},
+		{
+			"include": "#operators"
+		},
+		{
+			"include": "#identifiers"
+		},
+		{
+			"include": "#properties_literal"
+		},
+		{
+			"include": "#numbers"
+		},
+		{
+			"include": "#strings"
+		}
+	],
+	"repository": {
+		"comments": {
+			"patterns": [
+				{
+					"match": "\/\/.*$\\n?",
+					"name": "comment.line.double-slash.cypher"
+				}
+			]
+		},
+		"constants": {
+			"patterns": [
+				{
+					"match": "(?i)\\bTRUE|FALSE\\b",
+					"name": "constant.language.bool.cypher"
+				},
+				{
+					"match": "(?i)\\bNULL\\b",
+					"name": "constant.language.missing.cypher"
+				}
+			]
+		},
+		"functions": {
+			"patterns": [
+				{
+					"comment": "List of Cypher built-in functions from http:\/\/docs.neo4j.org\/chunked\/milestone\/query-function.html",
+					"match": "(?i)\\b((NOT)(?=\\s*\\()|IS\\s+NULL|IS\\s+NOT\\s+NULL)",
+					"name": "keyword.control.function.boolean.cypher"
+				},
+				{
+					"comment": "List of Cypher built-in functions from http:\/\/docs.neo4j.org\/chunked\/milestone\/query-function.html",
+					"match": "(?i)\\b(all|any|exists|none|single)(?=\\s*\\()",
+					"name": "support.function.predicate.cypher"
+				},
+				{
+					"comment": "List of Cypher built-in functions from http:\/\/docs.neo4j.org\/chunked\/milestone\/query-function.html",
+					"match": "(?i)\\b(coalesce|endNode|head|id|last|length|properties|randomUUID|size|size|size|startNode|timestamp|toBoolean|toFloat|toInteger|type)(?=\\s*\\()",
+					"name": "support.function.scalar.cypher"
+				},
+				{
+					"comment": "List of Cypher built-in functions from http:\/\/docs.neo4j.org\/chunked\/milestone\/query-function.html",
+					"match": "(?i)\\b(extract|filter|keys|labels|nodes|range|reduce|relationships|reverse|tail)(?=\\s*\\()",
+					"name": "support.function.list.cypher"
+				},
+				{
+					"comment": "List of Cypher built-in functions from http:\/\/docs.neo4j.org\/chunked\/milestone\/query-function.html",
+					"match": "(?i)\\b(abs|ceil|floor|rand|round|sign|e|exp|log|log10|sqrt|acos|asin|atan|atan2|cos|cot|degrees|haversin|pi|radians|sin|tan)(?=\\s*\\()",
+					"name": "support.function.math.cypher"
+				},
+				{
+					"comment": "List of Cypher built-in functions from http:\/\/docs.neo4j.org\/chunked\/milestone\/query-function.html",
+					"match": "(?i)\\b(avg|collect|count|max|min|percentileCont|percentileDisc|stDev|stDevP|sum)(?=\\s*\\()",
+					"name": "support.function.aggregation.cypher"
+				},
+				{
+					"comment": "List of Cypher built-in functions from http:\/\/docs.neo4j.org\/chunked\/milestone\/query-function.html",
+					"match": "(?i)\\b(left|lTrim|replace|reverse|right|rTrim|split|substring|toLower|toString|toUpper|trim)(?=\\s*\\()",
+					"name": "support.function.string.cypher"
+				},
+				{
+					"comment": "List of Cypher built-in functions from http:\/\/docs.neo4j.org\/chunked\/milestone\/query-function.html",
+					"match": "(?i)\\b(date|date.realtime|date.statement|date.transaction|date.truncate|datetime|datetime.realtime|datetime.statement|datetime.transaction|datetime.truncate|localdatetime|localdatetime.realtime|localdatetime.statement|localdatetime.transaction|localdatetime.truncate|localtime|localtime.realtime|localtime.statement|localtime.transaction|localtime.truncate|time|time.realtime|time.statement|time.transaction|time.truncate)(?=\\s*\\()",
+					"name": "support.function.temporalinstant.cypher"
+				},
+				{
+					"comment": "List of Cypher built-in functions from http:\/\/docs.neo4j.org\/chunked\/milestone\/query-function.html",
+					"match": "(?i)\\b(duration|duration.between|duration.inMonths|duration.inDays|duration.inSeconds)(?=\\s*\\()",
+					"name": "support.function.temporalduration.cypher"
+				},
+				{
+					"comment": "List of Cypher built-in functions from http:\/\/docs.neo4j.org\/chunked\/milestone\/query-function.html",
+					"match": "(?i)\\b(distance|point)(?=\\s*\\()",
+					"name": "support.function.spatial.cypher"
+				}
+			]
+		},
+		"template-substitution-element": {
+			"name": "meta.template.expression.ts",
+			"begin": "\\$\\{",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.template-expression.begin.ts"
+				}
+			},
+			"end": "\\}",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.template-expression.end.ts"
+				}
+			},
+			"patterns": [
+				{
+					"include": "source.ts"
+				}
+			],
+			"contentName": "meta.embedded.line.ts"
+		},
+		"identifiers": {
+			"patterns": [
+				{
+					"match": "(\\{)([a-zA-Z_][a-zA-Z0-9_]*)(\\})",
+					"captures": {
+						"1": {
+							"name": "punctuation.definition.template-expression.begin"
+						},
+						"2": {
+							"name": "variable"
+						},
+						"3": {
+							"name": "punctuation.definition.template-expression.end"
+						}
+					}
+				},
+				{
+					"match": "\\\\?`.+?\\\\?`",
+					"name": "variable.other.quoted-identifier.cypher"
+				},
+				{
+					"match": "[a-zA-Z_][a-zA-Z0-9_]*",
+					"name": "variable.other.cypher"
+				},
+				{
+					"match": "(:\\s*)([a-zA-Z_][a-zA-Z0-9_]*)",
+					"captures": {
+						"1": {
+							"name": "keyword.operator.identifier.separator.cypher"
+						},
+						"2": {
+							"name": "entity.name.type.cypher"
+						}
+					}
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"match": "(?i)\\b(START|MATCH|WHERE|RETURN|UNION|FOREACH|WITH|LIMIT|SKIP|UNWIND|HAS|ORDER\\s+BY)\\b",
+					"name": "keyword.control.clause.cypher"
+				},
+				{
+					"match": "(?i)\\b(AS|DISTINCT|OPTIONAL)\\b",
+					"name": "keyword.control.other.cypher"
+				},
+				{
+					"match": "(?i)\\b(ELSE|END|THEN|CASE|WHEN)\\b",
+					"name": "keyword.control.case.cypher"
+				},
+				{
+					"match": "(?i)\\b(FIELDTERMINATOR|USING\\s+PERIODIC\\s+COMMIT|HEADERS|LOAD\\s+CSV|FROM)\\b",
+					"name": "keyword.data.import.cypher"
+				},
+				{
+					"match": "(?i)\\b(USING\\s+INDEX|CREATE\\s+INDEX\\s+ON|DROP\\s+INDEX\\s+ON|CREATE\\s+CONSTRAINT\\s+ON|DROP\\s+CONSTRAINT\\s+ON)\\b",
+					"name": "keyword.other.indexes.cypher"
+				},
+				{
+					"match": "(?i)\\b(MERGE|DELETE|DETACH DELETE|SET|REMOVE|ON\\s+CREATE|ON\\s+MATCH|CREATE\\s+UNIQUE|CREATE)\\b",
+					"name": "keyword.data.definition.cypher keyword.control.clause.cypher"
+				},
+				{
+					"match": "(?i)\\b(DESC|ASC)\\b",
+					"name": "keyword.other.order.cypher"
+				},
+				{
+					"begin": "(?i)\\b(node|relationship|rel)((:)([a-zA-Z_-][a-zA-Z0-9_]*))?(?=\\s*\\()",
+					"beginCaptures": {
+						"1": {
+							"name": "support.class.starting-functions-point.cypher"
+						},
+						"2": {
+							"name": "keyword.control.index-seperator.cypher"
+						},
+						"3": {
+							"name": "keyword.control.index-seperator.cypher"
+						},
+						"4": {
+							"name": "support.class.index.cypher"
+						}
+					},
+					"end": "\\)",
+					"name": "source.starting-functions.cypher",
+					"patterns": [
+						{
+							"match": "((?:\\\\?`.+?\\\\?`)|(?:[a-zA-Z_][a-zA-Z0-9_]*))",
+							"name": "variable.parameter.relationship-name.cypher"
+						},
+						{
+							"match": "(\\*)",
+							"name": "keyword.control.starting-function-params.cypher"
+						},
+						{
+							"include": "#comments"
+						},
+						{
+							"include": "#numbers"
+						},
+						{
+							"include": "#strings"
+						}
+					]
+				}
+			]
+		},
+		"numbers": {
+			"patterns": [
+				{
+					"match": "\\b\\d+(\\.\\d+)?\\b",
+					"name": "constant.numeric.cypher"
+				}
+			]
+		},
+		"operators": {
+			"patterns": [
+				{
+					"match": "(\\+|\\-|\\\/|\\*|\\%|\\?|!)",
+					"name": "keyword.operator.math.cypher"
+				},
+				{
+					"match": "(<=|=>|<>|<|>|=~|=)",
+					"name": "keyword.operator.compare.cypher"
+				},
+				{
+					"match": "(?i)\\b(OR|AND|XOR|IS)\\b",
+					"name": "keyword.operator.logical.cypher"
+				},
+				{
+					"match": "(?i)\\b(IN)\\b",
+					"name": "keyword.operator.in.cypher"
+				}
+			]
+		},
+		"properties_literal": {
+			"patterns": [
+				{
+					"begin": "{",
+					"beginCaptures": [
+						{
+							"name": "punctuation.definition.block.cypher"
+						}
+					],
+					"end": "}",
+					"endCaptures": [
+						{
+							"name": "punctuation.definition.block.cypher"
+						}
+					],
+					"name": "source.cypher",
+					"patterns": [
+						{
+							"match": ",",
+							"name": "punctuation.separator.key-value.cypher"
+						},
+						{
+							"match": "([a-zA-Z_][a-zA-Z0-9_]*)(:)",
+							"captures": {
+								"1": {
+									"name": "entity.name.tag"
+								},
+								"2": {
+									"name": "punctuation.separator.key-value.cypher"
+								}
+							}
+						},
+						{
+							"include": "#comments"
+						},
+						{
+							"include": "#constants"
+						},
+						{
+							"include": "#functions"
+						},
+						{
+							"include": "#operators"
+						},
+						{
+							"include": "#template-substitution-element"
+						},
+						{
+							"include": "#identifiers"
+						},
+						{
+							"include": "#numbers"
+						},
+						{
+							"include": "#strings"
+						}
+					]
+				}
+			]
+		},
+		"string_escape": {
+			"captures": {
+				"2": {
+					"name": "string.quoted.double.cypher"
+				}
+			},
+			"match": "(\\\\\\\\|\\\\[tbnrf])|(\\\\'|\\\\\")",
+			"name": "constant.character.escape.cypher"
+		},
+		"strings": {
+			"patterns": [
+				{
+					"begin": "'",
+					"end": "'",
+					"name": "string.quoted.single.cypher",
+					"patterns": [
+						{
+							"include": "#string_escape"
+						}
+					]
+				},
+				{
+					"begin": "\"",
+					"end": "\"",
+					"name": "string.quoted.double.cypher",
+					"patterns": [
+						{
+							"include": "#string_escape"
+						}
+					]
+				}
+			]
+		}
+	},
+	"scopeName": "source.cypher"
+}
