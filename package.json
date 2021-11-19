@@ -2,7 +2,11 @@
 	"name": "cypher43-client",
 	"displayName": "Cypher Http Client",
 	"description": "",
-	"version": "0.0.1",
+	"version": "0.0.2",
+	"repository": {
+        "type": "git",
+        "url": "https://github.com/zuize47/cypher43-client"
+    },
 	"engines": {
 		"vscode": "^1.62.0"
 	},
@@ -12,6 +16,11 @@
 	"activationEvents": [
 		"onCommand:cypher43-client.runCypher"
 	],
+	"icon": "assets/logo.png",
+    "galleryBanner": {
+        "color": "#292b31",
+        "theme": "dark"
+    },
 	"main": "./extension.js",
 	"contributes": {
 		"languages": [
