@@ -34,13 +34,22 @@ function activate(context) {
 
 		if (editor) {
 			const document = editor.document;
-			let cypher_script = document.getText()
-			const matches = cypher_script.match(get_host_regex)
+			const full_text = document.getText()
+			// default run all
+			let script = full_text
+			const matches = full_text.match(get_host_regex)
 			if (matches == null || matches.length < 2) {
 				vscode.window.showErrorMessage('Add neo4j host at first line:`//neo4j:http://hostname:port`');
 				return
 			}
 			const host = matches[1]
+			// run with selection
+			var selection = editor.selection;	
+			const word = document.getText(selection);
+			if (word.length > 0) {
+				script = word				
+			}
+
 			vscode.window.withProgress({
 				location: vscode.ProgressLocation.Notification,
 				title: "Loading data!",
@@ -52,7 +61,7 @@ function activate(context) {
 						message: `Loading data ${count}%`
 					});
 				}, 700);
-				return post_cypher(cypher_script, host)
+				return post_cypher(script, host)
 					.then((response) => {
 						outputChannel.clear();
 						outputChannel.appendLine(JSON.stringify(response.data, null, 2));
