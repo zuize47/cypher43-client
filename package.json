@@ -2,7 +2,7 @@
 	"name": "cypher43-client",
 	"displayName": "Cypher Http Client",
 	"description": "Run cypher with http api",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"repository": {
         "type": "git",
         "url": "https://github.com/zuize47/cypher43-client"
