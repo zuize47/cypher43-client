@@ -2,7 +2,7 @@ const vscode = require('vscode');
 const axios = require('axios');
 
 const get_host_regex = /neo4j:(http(s)?:\/\/\w*\:\d{4,5})/
-const remove_comment_regex = /((['"])(?:(?!\2|\\).|\\.)*\2)|\/\/[^\n]*|\/\*(?:[^*]|\*(?!\/))*\*\//
+const remove_comment_regex = /((?:(?!\2|\\).|\\.)*\2)|\/\/[^\n]*|\/\*(?:[^*]|\*(?!\/))*\*\//
 const remmove_new_line = /(\r\n|\n|\r)/gm
 const outputChannel = vscode.window.createOutputChannel(`Cypher Output`);
 
@@ -63,9 +63,17 @@ function activate(context) {
 				}, 700);
 				return post_cypher(script, host)
 					.then((response) => {
-						outputChannel.clear();
-						outputChannel.appendLine(JSON.stringify(response.data, null, 2));
-						outputChannel.show();
+						const data = response.data
+						if (data.errors.length > 0) {
+							outputChannel.clear();
+							outputChannel.appendLine(JSON.stringify(data.errors, null, 2));
+							outputChannel.show();
+						}else {
+							outputChannel.clear();
+							outputChannel.appendLine(JSON.stringify(data.results, null, 2));
+							outputChannel.show();
+						}
+						
 					})
 					.catch(error => {
 						vscode.window.showErrorMessage(JSON.stringify(error));
