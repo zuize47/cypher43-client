@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const axios = require('axios');
+var jp = require('jsonpath');
 
 const get_host_regex = /neo4j:(http(s)?:\/\/\w*\:\d{4,5})/
 const remove_comment_regex = /((?:(?!\2|\\).|\\.)*\2)|\/\/[^\n]*|\/\*(?:[^*]|\*(?!\/))*\*\//
@@ -21,7 +22,7 @@ function post_cypher(cypher, host) {
 }
 let running = false;
 
-function epoctime() {
+function epoctime () {
 	vscode.env.clipboard.readText().then((text)=>{
 		const clipboard_content = text; 
 		const matches = clipboard_content.match(epic_regx)
@@ -38,8 +39,35 @@ function epoctime() {
 	});
 }
 
-function activate(context) {
-	const disposableEpoc = vscode.commands.registerCommand('cypher43-client.convertEpoc', epoctime)
+function convertToCSV(arr) {
+	const array = [Object.keys(arr[0])].concat(arr)
+  
+	return array.map(it => {
+	  return Object.values(it).toString()
+	}).join('\n')
+  }
+
+function neo4jOutput2Csv () {
+	vscode.env.clipboard.readText().then((text)=>{
+		const clipboard_content = text; 
+		try {
+			const jobject = JSON.parse(clipboard_content)
+			const columns = jp.query(jobject, '$..columns')[0]
+			const rows = jp.query(jobject, '$..row')
+			let csv = columns.join(',') + '\n'
+			rows.forEach(row => {
+				csv += row.join(',') + '\n'
+			})
+			vscode.env.clipboard.writeText(csv);
+		} catch (error) {
+			vscode.window.showErrorMessage(JSON.stringify(error));
+		}
+	});
+}
+
+function activate (context) {
+	const disposableEpoc = vscode.commands.registerCommand('cypher43-client.convertEpoc', epoctime);
+	const disposableCsv = vscode.commands.registerCommand('cypher43-client.neo4j2Csv', neo4jOutput2Csv);
 	const disposable = vscode.commands.registerCommand('cypher43-client.runCypher', function () {
 
 		if (running) {
@@ -107,6 +135,7 @@ function activate(context) {
 	});
 	
 	context.subscriptions.push(disposableEpoc);
+	context.subscriptions.push(disposableCsv);
 	context.subscriptions.push(disposable);
 
 }

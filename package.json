@@ -2,11 +2,11 @@
 	"name": "cypher43-client",
 	"displayName": "Cypher Http Client",
 	"description": "Run cypher with http api",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"repository": {
-        "type": "git",
-        "url": "https://github.com/zuize47/cypher43-client"
-    },
+		"type": "git",
+		"url": "https://github.com/zuize47/cypher43-client"
+	},
 	"engines": {
 		"vscode": "^1.62.0"
 	},
@@ -15,30 +15,31 @@
 	],
 	"activationEvents": [
 		"onCommand:cypher43-client.runCypher",
-		"onCommand:cypher43-client.convertEpoc"
+		"onCommand:cypher43-client.convertEpoc",
+		"onCommand:cypher43-client.neo4j2Csv"
 	],
 	"icon": "assets/logo.png",
-    "galleryBanner": {
-        "color": "#292b31",
-        "theme": "dark"
-    },
+	"galleryBanner": {
+		"color": "#292b31",
+		"theme": "dark"
+	},
 	"main": "./extension.js",
 	"contributes": {
 		"languages": [
 			{
-                "id": "cypher",
-                "aliases": [
-                	"Cypher Query Language",
-                    "Cypher QL",                    
-                    "cypher"
-                ],
-                "extensions": [
-                    ".cql",
-                    ".cyp",
-                    ".cypher"
-                ],
-                "configuration": "./cypher.configuration.json"
-            },
+				"id": "cypher",
+				"aliases": [
+					"Cypher Query Language",
+					"Cypher QL",
+					"cypher"
+				],
+				"extensions": [
+					".cql",
+					".cyp",
+					".cypher"
+				],
+				"configuration": "./cypher.configuration.json"
+			},
 			{
 				"id": "code-output",
 				"mimetypes": [
@@ -52,24 +53,24 @@
 				"scopeName": "log.json",
 				"path": "./syntaxes/JSON.tmLanguage.json"
 			},
-            {
-                "language": "cypher",
-                "scopeName": "source.cypher",
-                "path": "./syntaxes/cypher-language.json"
-            },
-            {
-                "injectTo": [
-                    "source.js",
-                    "source.ts",
-                    "source.jsx",
-                    "source.js.jsx",
-                    "source.tsx",
-                    "source.python"
-                ],
-                "scopeName": "cypher",
-                "path": "./syntaxes/cypher-embedded.json"
-            }
-        ],
+			{
+				"language": "cypher",
+				"scopeName": "source.cypher",
+				"path": "./syntaxes/cypher-language.json"
+			},
+			{
+				"injectTo": [
+					"source.js",
+					"source.ts",
+					"source.jsx",
+					"source.js.jsx",
+					"source.tsx",
+					"source.python"
+				],
+				"scopeName": "cypher",
+				"path": "./syntaxes/cypher-embedded.json"
+			}
+		],
 		"commands": [
 			{
 				"command": "cypher43-client.runCypher",
@@ -78,25 +79,29 @@
 			{
 				"command": "cypher43-client.convertEpoc",
 				"title": "Convert Epoc"
+			},
+			{
+				"command": "cypher43-client.neo4j2Csv",
+				"title": "Neo4j Csv Convert"
 			}
 		],
 		"menus": {
 			"editor/context": [
-                {
-                    "command": "cypher43-client.runCypher",
-                    "group": "Cypher",
-                    "when": "editorLangId == cypher"
-                }
-            ]
+				{
+					"command": "cypher43-client.runCypher",
+					"group": "Cypher",
+					"when": "editorLangId == cypher"
+				}
+			]
 		},
 		"keybindings": [
 			{
-			  "command": "cypher43-client.runCypher",
-			  "key": "f5",
-			  "mac": "cmd+f5",
-			  "when": "editorLangId == cypher"
+				"command": "cypher43-client.runCypher",
+				"key": "f5",
+				"mac": "cmd+f5",
+				"when": "editorLangId == cypher"
 			}
-		  ]
+		]
 	},
 	"scripts": {
 		"lint": "eslint .",
@@ -115,6 +120,7 @@
 		"@vscode/test-electron": "^1.6.2"
 	},
 	"dependencies": {
-		"axios": "^0.24.0"
+		"axios": "^0.24.0",
+		"jsonpath": "^1.1.1"
 	}
 }
