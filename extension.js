@@ -5,7 +5,7 @@ const get_host_regex = /neo4j:(http(s)?:\/\/\w*\:\d{4,5})/
 const remove_comment_regex = /((?:(?!\2|\\).|\\.)*\2)|\/\/[^\n]*|\/\*(?:[^*]|\*(?!\/))*\*\//
 const remmove_new_line = /(\r\n|\n|\r)/gm
 const outputChannel = vscode.window.createOutputChannel(`Cypher Output`);
-
+const epic_regx = /(\d{10}|\d{13})/
 
 function post_cypher(cypher, host) {
 	const cypher_fixed = cypher.replace(remove_comment_regex, " ").replace(remmove_new_line, " ");
@@ -21,8 +21,25 @@ function post_cypher(cypher, host) {
 }
 let running = false;
 
-function activate(context) {
+function epoctime() {
+	vscode.env.clipboard.readText().then((text)=>{
+		const clipboard_content = text; 
+		const matches = clipboard_content.match(epic_regx)
+		let le = 1000
+		if (matches != null) {
+			const epic_int = parseInt(clipboard_content)
+			if (clipboard_content.length == 13) {
+				le = 1
+			}
+			const date_str = new Date(epic_int * le).toISOString();
+			vscode.window.showInformationMessage(date_str);
+			vscode.env.clipboard.writeText(date_str);
+		}
+	});
+}
 
+function activate(context) {
+	const disposableEpoc = vscode.commands.registerCommand('cypher43-client.convertEpoc', epoctime)
 	const disposable = vscode.commands.registerCommand('cypher43-client.runCypher', function () {
 
 		if (running) {
@@ -88,7 +105,8 @@ function activate(context) {
 
 		}
 	});
-
+	
+	context.subscriptions.push(disposableEpoc);
 	context.subscriptions.push(disposable);
 
 }

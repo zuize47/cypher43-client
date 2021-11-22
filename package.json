@@ -2,7 +2,7 @@
 	"name": "cypher43-client",
 	"displayName": "Cypher Http Client",
 	"description": "Run cypher with http api",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"repository": {
         "type": "git",
         "url": "https://github.com/zuize47/cypher43-client"
@@ -14,7 +14,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:cypher43-client.runCypher"
+		"onCommand:cypher43-client.runCypher",
+		"onCommand:cypher43-client.convertEpoc"
 	],
 	"icon": "assets/logo.png",
     "galleryBanner": {
@@ -73,6 +74,10 @@
 			{
 				"command": "cypher43-client.runCypher",
 				"title": "Run Cypher"
+			},
+			{
+				"command": "cypher43-client.convertEpoc",
+				"title": "Convert Epoc"
 			}
 		],
 		"menus": {
