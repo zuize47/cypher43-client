@@ -3,7 +3,7 @@ const axios = require('axios');
 var jp = require('jsonpath');
 
 const get_host_regex = /neo4j:(http(s)?:\/\/\w*\:\d{4,5})/
-const remove_comment_regex = /((?:(?!\2|\\).|\\.)*\2)|\/\/[^\n]*|\/\*(?:[^*]|\*(?!\/))*\*\//
+const remove_comment_regex = /(s:\/\*.*?\*\/)|\/\/.*/g
 const remmove_new_line = /(\r\n|\n|\r)/gm
 const outputChannel = vscode.window.createOutputChannel(`Cypher Output`);
 const epic_regx = /(\d{10}|\d{13})/
